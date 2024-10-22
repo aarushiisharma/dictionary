@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D\ictionary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="upper">
+            <input id="type"type="text" >
+            <button> <img id="search" src="loupe.png"> </button>
+        </div>
+        <div id="word"></div>
+        <div id="phonetics"></div>
+        <div id="definition"></div>
+        <div id="example"></div>
+    </div>
+</body>
+
+
+
+<script>
+
+const search=document.getElementById('search')
+const word=document.getElementById('word')
+const input=document.getElementById('type')
+const phonetics=document.getElementById('phonetics')
+const definition=document.getElementById('definition')
+const example=document.getElementById('example')
+
+search.onclick=async function(){
+
+    const URL=`https://api.dictionaryapi.dev/api/v2/entries/en/${input.value}`;
+
+    try {
+        const response=await fetch(URL)
+        const data=await response.json();
+        console.log(data);
+        
+        word.innerHTML=input.value
+        phonetics.innerHTML=`${data[0].phonetic}`
+        definition.innerHTML=`${data[0].meanings[0].definitions[0].definition}`
+        example.innerHTML=`Eg - ${data[0].meanings[0].definitions[0].example}`
+
+
+        input.value=""
+    }  
+
+    catch (error) {
+        console.log("error found",error);
+    }    
+}
+
+
+
+
+</script>
+</html>
